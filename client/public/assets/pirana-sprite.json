@@ -1,0 +1,682 @@
+{
+	"textures": [
+		{
+			"image": "pirana-sprite-0.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 1694,
+				"h": 1964
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "__piranha_swim_snapping_004.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 681,
+						"h": 478
+					},
+					"spriteSourceSize": {
+						"x": 19,
+						"y": 12,
+						"w": 657,
+						"h": 439
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 657,
+						"h": 439
+					}
+				},
+				{
+					"filename": "__piranha_swim_snapping_002.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 681,
+						"h": 478
+					},
+					"spriteSourceSize": {
+						"x": 23,
+						"y": 52,
+						"w": 617,
+						"h": 336
+					},
+					"frame": {
+						"x": 660,
+						"y": 1,
+						"w": 617,
+						"h": 336
+					}
+				},
+				{
+					"filename": "__piranha_swim_004.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 681,
+						"h": 478
+					},
+					"spriteSourceSize": {
+						"x": 34,
+						"y": 71,
+						"w": 642,
+						"h": 303
+					},
+					"frame": {
+						"x": 660,
+						"y": 339,
+						"w": 642,
+						"h": 303
+					}
+				},
+				{
+					"filename": "__piranha_swim_003.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 681,
+						"h": 478
+					},
+					"spriteSourceSize": {
+						"x": 50,
+						"y": 68,
+						"w": 609,
+						"h": 309
+					},
+					"frame": {
+						"x": 1,
+						"y": 442,
+						"w": 609,
+						"h": 309
+					}
+				},
+				{
+					"filename": "__piranha_die_002.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 681,
+						"h": 478
+					},
+					"spriteSourceSize": {
+						"x": 88,
+						"y": 52,
+						"w": 549,
+						"h": 321
+					},
+					"frame": {
+						"x": 612,
+						"y": 644,
+						"w": 549,
+						"h": 321
+					}
+				},
+				{
+					"filename": "__piranha_die_003.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 681,
+						"h": 478
+					},
+					"spriteSourceSize": {
+						"x": 108,
+						"y": 42,
+						"w": 519,
+						"h": 335
+					},
+					"frame": {
+						"x": 1163,
+						"y": 644,
+						"w": 519,
+						"h": 335
+					}
+				},
+				{
+					"filename": "__piranha_swim_005.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 681,
+						"h": 478
+					},
+					"spriteSourceSize": {
+						"x": 51,
+						"y": 68,
+						"w": 607,
+						"h": 290
+					},
+					"frame": {
+						"x": 1,
+						"y": 753,
+						"w": 607,
+						"h": 290
+					}
+				},
+				{
+					"filename": "__piranha_swim_007.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 681,
+						"h": 478
+					},
+					"spriteSourceSize": {
+						"x": 84,
+						"y": 63,
+						"w": 537,
+						"h": 306
+					},
+					"frame": {
+						"x": 610,
+						"y": 967,
+						"w": 537,
+						"h": 306
+					}
+				},
+				{
+					"filename": "__piranha_idle_006.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 681,
+						"h": 478
+					},
+					"spriteSourceSize": {
+						"x": 75,
+						"y": 67,
+						"w": 544,
+						"h": 297
+					},
+					"frame": {
+						"x": 1149,
+						"y": 981,
+						"w": 544,
+						"h": 297
+					}
+				},
+				{
+					"filename": "__piranha_idle_001.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 681,
+						"h": 478
+					},
+					"spriteSourceSize": {
+						"x": 78,
+						"y": 70,
+						"w": 557,
+						"h": 314
+					},
+					"frame": {
+						"x": 1,
+						"y": 1045,
+						"w": 557,
+						"h": 314
+					}
+				},
+				{
+					"filename": "__piranha_idle_009.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 681,
+						"h": 478
+					},
+					"spriteSourceSize": {
+						"x": 78,
+						"y": 70,
+						"w": 557,
+						"h": 314
+					},
+					"frame": {
+						"x": 560,
+						"y": 1275,
+						"w": 557,
+						"h": 314
+					}
+				},
+				{
+					"filename": "__piranha_swim_001.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 681,
+						"h": 478
+					},
+					"spriteSourceSize": {
+						"x": 83,
+						"y": 63,
+						"w": 538,
+						"h": 298
+					},
+					"frame": {
+						"x": 1,
+						"y": 1361,
+						"w": 538,
+						"h": 298
+					}
+				},
+				{
+					"filename": "__piranha_swim_snapping_001.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 681,
+						"h": 478
+					},
+					"spriteSourceSize": {
+						"x": 50,
+						"y": 63,
+						"w": 571,
+						"h": 298
+					},
+					"frame": {
+						"x": 1119,
+						"y": 1280,
+						"w": 571,
+						"h": 298
+					}
+				},
+				{
+					"filename": "__piranha_swim_002.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 681,
+						"h": 478
+					},
+					"spriteSourceSize": {
+						"x": 66,
+						"y": 66,
+						"w": 574,
+						"h": 293
+					},
+					"frame": {
+						"x": 1119,
+						"y": 1580,
+						"w": 574,
+						"h": 293
+					}
+				},
+				{
+					"filename": "__piranha_idle_005.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 681,
+						"h": 478
+					},
+					"spriteSourceSize": {
+						"x": 74,
+						"y": 66,
+						"w": 539,
+						"h": 292
+					},
+					"frame": {
+						"x": 541,
+						"y": 1591,
+						"w": 539,
+						"h": 292
+					}
+				},
+				{
+					"filename": "__piranha_swim_snapping_000.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 681,
+						"h": 478
+					},
+					"spriteSourceSize": {
+						"x": 100,
+						"y": 60,
+						"w": 502,
+						"h": 302
+					},
+					"frame": {
+						"x": 1,
+						"y": 1661,
+						"w": 502,
+						"h": 302
+					}
+				}
+			]
+		},
+		{
+			"image": "pirana-sprite-1.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 1767,
+				"h": 1655
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "__piranha_swim_006.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 681,
+						"h": 478
+					},
+					"spriteSourceSize": {
+						"x": 67,
+						"y": 65,
+						"w": 573,
+						"h": 294
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 573,
+						"h": 294
+					}
+				},
+				{
+					"filename": "__piranha_swim_snapping_006.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 681,
+						"h": 478
+					},
+					"spriteSourceSize": {
+						"x": 64,
+						"y": 65,
+						"w": 576,
+						"h": 294
+					},
+					"frame": {
+						"x": 576,
+						"y": 1,
+						"w": 576,
+						"h": 294
+					}
+				},
+				{
+					"filename": "__piranha_idle_004.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 681,
+						"h": 478
+					},
+					"spriteSourceSize": {
+						"x": 75,
+						"y": 67,
+						"w": 544,
+						"h": 297
+					},
+					"frame": {
+						"x": 1154,
+						"y": 1,
+						"w": 544,
+						"h": 297
+					}
+				},
+				{
+					"filename": "__piranha_idle_003.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 681,
+						"h": 478
+					},
+					"spriteSourceSize": {
+						"x": 76,
+						"y": 68,
+						"w": 548,
+						"h": 302
+					},
+					"frame": {
+						"x": 1,
+						"y": 297,
+						"w": 548,
+						"h": 302
+					}
+				},
+				{
+					"filename": "__piranha_idle_007.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 681,
+						"h": 478
+					},
+					"spriteSourceSize": {
+						"x": 76,
+						"y": 68,
+						"w": 548,
+						"h": 302
+					},
+					"frame": {
+						"x": 551,
+						"y": 297,
+						"w": 548,
+						"h": 302
+					}
+				},
+				{
+					"filename": "__piranha_swim_000.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 681,
+						"h": 478
+					},
+					"spriteSourceSize": {
+						"x": 100,
+						"y": 60,
+						"w": 502,
+						"h": 302
+					},
+					"frame": {
+						"x": 1101,
+						"y": 300,
+						"w": 502,
+						"h": 302
+					}
+				},
+				{
+					"filename": "__piranha_swim_snapping_007.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 681,
+						"h": 478
+					},
+					"spriteSourceSize": {
+						"x": 80,
+						"y": 63,
+						"w": 541,
+						"h": 306
+					},
+					"frame": {
+						"x": 1,
+						"y": 601,
+						"w": 541,
+						"h": 306
+					}
+				},
+				{
+					"filename": "__piranha_idle_002.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 681,
+						"h": 478
+					},
+					"spriteSourceSize": {
+						"x": 77,
+						"y": 69,
+						"w": 552,
+						"h": 308
+					},
+					"frame": {
+						"x": 544,
+						"y": 601,
+						"w": 552,
+						"h": 308
+					}
+				},
+				{
+					"filename": "__piranha_idle_008.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 681,
+						"h": 478
+					},
+					"spriteSourceSize": {
+						"x": 77,
+						"y": 69,
+						"w": 553,
+						"h": 308
+					},
+					"frame": {
+						"x": 1098,
+						"y": 604,
+						"w": 553,
+						"h": 308
+					}
+				},
+				{
+					"filename": "__piranha_die_000.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 681,
+						"h": 478
+					},
+					"spriteSourceSize": {
+						"x": 79,
+						"y": 71,
+						"w": 561,
+						"h": 320
+					},
+					"frame": {
+						"x": 1,
+						"y": 911,
+						"w": 561,
+						"h": 320
+					}
+				},
+				{
+					"filename": "__piranha_die_001.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 681,
+						"h": 478
+					},
+					"spriteSourceSize": {
+						"x": 75,
+						"y": 62,
+						"w": 563,
+						"h": 320
+					},
+					"frame": {
+						"x": 564,
+						"y": 914,
+						"w": 563,
+						"h": 320
+					}
+				},
+				{
+					"filename": "__piranha_idle_000.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 681,
+						"h": 478
+					},
+					"spriteSourceSize": {
+						"x": 79,
+						"y": 71,
+						"w": 561,
+						"h": 320
+					},
+					"frame": {
+						"x": 1129,
+						"y": 914,
+						"w": 561,
+						"h": 320
+					}
+				},
+				{
+					"filename": "__piranha_die_004.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 681,
+						"h": 478
+					},
+					"spriteSourceSize": {
+						"x": 122,
+						"y": 33,
+						"w": 486,
+						"h": 338
+					},
+					"frame": {
+						"x": 1,
+						"y": 1233,
+						"w": 486,
+						"h": 338
+					}
+				},
+				{
+					"filename": "__piranha_swim_snapping_003.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 681,
+						"h": 478
+					},
+					"spriteSourceSize": {
+						"x": 21,
+						"y": 27,
+						"w": 638,
+						"h": 392
+					},
+					"frame": {
+						"x": 489,
+						"y": 1236,
+						"w": 638,
+						"h": 392
+					}
+				},
+				{
+					"filename": "__piranha_swim_snapping_005.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 681,
+						"h": 478
+					},
+					"spriteSourceSize": {
+						"x": 21,
+						"y": 13,
+						"w": 637,
+						"h": 418
+					},
+					"frame": {
+						"x": 1129,
+						"y": 1236,
+						"w": 637,
+						"h": 418
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:e9d5c3fc0a14657c11092e614eb5148a:d14437e8564761cbb0ff94737275a41d:076d329b6e52f1a5ca7aebe0715d6dd8$"
+	}
+}
