@@ -7,11 +7,11 @@ type Client interface {
 
 type Player struct {
 	ID     uint8
-	Object Object
+	Object *Object
 	Client Client
 }
 
-func NewPlayer(id uint8, object Object, client Client) Player {
+func NewPlayer(id uint8, object *Object, client Client) Player {
 	return Player{
 		ID:     id,
 		Object: object,

@@ -10,7 +10,7 @@ import (
 	"github.com/elnur0000/fish-backend/pkg/transports"
 )
 
-const GAME_LOOP_INTERVAL = 5 * time.Millisecond
+const GameLoopInterval = 5 * time.Millisecond
 
 type GameController struct {
 	networkController NetworkController
@@ -59,7 +59,7 @@ func (g GameController) StartGameLoop() {
 		})
 	})
 
-	for range time.Tick(GAME_LOOP_INTERVAL) {
+	for range time.Tick(GameLoopInterval) {
 		g.processPlayerCommands()
 		g.broadcastGameState()
 	}
@@ -68,7 +68,7 @@ func (g GameController) StartGameLoop() {
 func (g GameController) broadcastGameState() {
 	for _, player := range g.game.Players {
 		if player != nil {
-			msg, err := protocol.Serialize(protocol.NewPlayerStateMessage(player.ID, player.Object.Position.X, player.Object.Position.Y, player.Object.Rotation, player.Object.Height, player.Object.Width, player.Object.Velocity))
+			msg, err := protocol.Serialize(protocol.NewPlayerStateMessage(player.ID, player.Object.Position.X, player.Object.Position.Y, player.Object.Rotation, player.Object.Velocity, player.Object.Height, player.Object.Width))
 			if err != nil {
 				continue
 			}

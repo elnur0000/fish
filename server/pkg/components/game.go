@@ -6,10 +6,10 @@ import (
 	"sync"
 )
 
-const MAX_PLAYER_PER_GAME = 64
+const MaxPlayerPerGame = 64
 
 type Game struct {
-	Players [MAX_PLAYER_PER_GAME]*Player
+	Players [MaxPlayerPerGame]*Player
 	m       *sync.Mutex
 	World   World
 }
@@ -37,13 +37,12 @@ func (g *Game) SpawnNewPlayer(conn Client) (*Player, error) {
 		}
 	}
 
-	return nil, errors.New("Game is full")
+	return nil, errors.New("game is full")
 }
 
 func (g *Game) RemovePlayer(ID uint8) {
 	log.Printf("Removing a player with id %d", ID)
-	g.m.Lock()
-	defer g.m.Unlock()
+	g.Players[ID-1].Object.world.removeFromCells(g.Players[ID-1].Object)
 	g.Players[ID-1] = nil
 
 }
@@ -51,5 +50,10 @@ func (g *Game) RemovePlayer(ID uint8) {
 func (g *Game) UpdatePlayer(p Player) {
 	g.m.Lock()
 	defer g.m.Unlock()
+	println("updating player")
+	if g.Players[p.ID-1] != nil {
+		g.RemovePlayer(p.ID)
+	}
+
 	g.Players[p.ID-1] = &p
 }

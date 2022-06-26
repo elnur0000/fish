@@ -46,11 +46,11 @@ type PlayerStateMessage struct {
 	Y        float32
 	Rotation float32
 	Velocity float32
-	Height   float32
-	Width    float32
+	Height   uint32
+	Width    uint32
 }
 
-func NewPlayerStateMessage(id uint8, x, y, rotation, height, width, velocity float32) PlayerStateMessage {
+func NewPlayerStateMessage(id uint8, x, y, rotation, velocity float32, height, width uint32) PlayerStateMessage {
 	return PlayerStateMessage{
 		Type:     PLAYER_STATE,
 		ID:       id,

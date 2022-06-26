@@ -1,12 +1,18 @@
 package components
 
-import "math"
+import (
+	"math"
+)
 
-const DEFAULT_VELOCITY float32 = 0.5 // per milliseconds
+const DefaultVelocity float32 = 0.5 // per milliseconds
+const DefaultCellSize uint16 = 50
 
 type World struct {
-	Bounds  Rect
-	Objects []Object
+	Bounds   Rect
+	Width    uint32
+	Height   uint32
+	cells    [][]*Object
+	cellSize uint16
 }
 
 type Rect struct {
@@ -16,11 +22,11 @@ type Rect struct {
 	D Vec
 }
 
-func (r *Rect) Subtract(v Rect) {
-	r.A.Subtract(v.A)
-	r.B.Subtract(v.B)
-	r.C.Subtract(v.C)
-	r.D.Subtract(v.D)
+func (r *Rect) Subtract(v Vec) {
+	r.A.Subtract(v)
+	r.B.Subtract(v)
+	r.C.Subtract(v)
+	r.D.Subtract(v)
 }
 
 func (r Rect) Center() Vec {
@@ -63,14 +69,14 @@ type Object struct {
 	Rect     Rect
 	Position Vec
 	world    *World
-	Width    float32
-	Height   float32
+	Width    uint32
+	Height   uint32
 	Velocity float32
 	Rotation float32
 }
 
 func NewWorld(x, x1, y, y1 float32) World {
-	return World{
+	world := World{
 		Bounds: Rect{
 			A: Vec{
 				X: x,
@@ -89,45 +95,92 @@ func NewWorld(x, x1, y, y1 float32) World {
 				Y: y,
 			},
 		},
+		Width:    uint32(x1 - x),
+		Height:   uint32(y1 - y),
+		cellSize: DefaultCellSize,
 	}
+
+	world.buildCells()
+
+	return world
 }
 
-func (w *World) CreateObject(pos Vec, width, height float32) Object {
+func (w *World) buildCells() {
+	w.cells = make([][]*Object, w.Width/uint32(w.cellSize)*w.Height/uint32(w.cellSize))
+}
+
+func (w *World) CreateObject(pos Vec, width, height uint32) *Object {
 	object := Object{
 		Position: pos,
 		world:    w,
 		Rect: Rect{
 			A: Vec{
-				X: pos.X - width/2,
-				Y: pos.Y - height/2,
+				X: pos.X - float32(width/2),
+				Y: pos.Y - float32(height/2),
 			},
 			B: Vec{
-				X: pos.X - width/2,
-				Y: pos.Y + height/2,
+				X: pos.X - float32(width/2),
+				Y: pos.Y + float32(height/2),
 			},
 			C: Vec{
-				X: pos.X + width/2,
-				Y: pos.Y + height/2,
+				X: pos.X + float32(width/2),
+				Y: pos.Y + float32(height/2),
 			},
 			D: Vec{
-				X: pos.X + width/2,
-				Y: pos.Y - height/2,
+				X: pos.X + float32(width/2),
+				Y: pos.Y - float32(height/2),
 			},
 		},
 		Width:    width,
 		Height:   height,
-		Velocity: DEFAULT_VELOCITY,
+		Velocity: DefaultVelocity,
 	}
 
-	w.Objects = append(w.Objects, object)
+	w.insertToCells(&object)
 
-	return object
+	return &object
+}
+
+func (w *World) insertToCells(object *Object) {
+	for yi := int(object.Rect.A.Y); yi < int(object.Rect.C.Y); yi += int(w.cellSize) {
+		for xi := int(object.Rect.A.X); xi < int(object.Rect.C.X); xi += int(w.cellSize) {
+			cellIndex := w.cellIndex(Vec{X: float32(xi), Y: float32(yi)})
+			w.cells[cellIndex] = append(w.cells[cellIndex], object)
+		}
+	}
+}
+
+func (w *World) removeFromCells(object *Object) {
+	for yi := int(object.Rect.A.Y); yi < int(object.Rect.C.Y); yi += int(w.cellSize) {
+		for xi := int(object.Rect.A.X); xi < int(object.Rect.C.X); xi += int(w.cellSize) {
+			cellIndex := w.cellIndex(Vec{X: float32(xi), Y: float32(yi)})
+			cell := w.cells[cellIndex]
+			for i, obj := range cell {
+				if obj == object {
+					if len(w.cells) < 2 {
+						cell = []*Object{}
+						continue
+					}
+					// swap current object with the last one and then remove it, for efficiency
+					lastObj := cell[len(cell)-1]
+					cell[i] = lastObj
+					cell = cell[:len(cell)-1]
+				}
+			}
+			w.cells[cellIndex] = cell
+		}
+	}
+
+}
+
+func (w *World) cellIndex(pos Vec) int {
+	return int(pos.X)/int(w.cellSize) + (int(w.Width)/int(w.cellSize))*(int(pos.Y)/int(w.cellSize))
 }
 
 func (o *Object) Move(duration float32) {
-	dx := math.Cos(float64(o.Rotation)) * float64((o.Velocity * duration))
-	dy := math.Sin(float64(o.Rotation)) * float64((o.Velocity * duration))
-
+	o.world.removeFromCells(o)
+	dx := math.Cos(float64(o.Rotation)) * float64(o.Velocity*duration)
+	dy := math.Sin(float64(o.Rotation)) * float64(o.Velocity*duration)
 	dVec := Vec{
 		X: -float32(dx),
 		Y: -float32(dy),
@@ -147,46 +200,28 @@ func (o *Object) Move(duration float32) {
 
 	if newRect.B.Y > topBound {
 		distance := newRect.B.Y - topBound
-		newRect.Subtract(Rect{
-			A: Vec{X: 0, Y: distance},
-			B: Vec{X: 0, Y: distance},
-			C: Vec{X: 0, Y: distance},
-			D: Vec{X: 0, Y: distance},
-		})
+		newRect.Subtract(Vec{X: 0, Y: distance})
 	}
 
 	if newRect.B.X < leftBound {
 		distance := newRect.B.X - leftBound
-		newRect.Subtract(Rect{
-			A: Vec{X: distance, Y: 0},
-			B: Vec{X: distance, Y: 0},
-			C: Vec{X: distance, Y: 0},
-			D: Vec{X: distance, Y: 0},
-		})
+		newRect.Subtract(Vec{X: distance, Y: 0})
 	}
 
 	if newRect.A.Y < bottomBound {
 		distance := newRect.A.Y - bottomBound
-		newRect.Subtract(Rect{
-			A: Vec{X: 0, Y: distance},
-			B: Vec{X: 0, Y: distance},
-			C: Vec{X: 0, Y: distance},
-			D: Vec{X: 0, Y: distance},
-		})
+		newRect.Subtract(Vec{X: 0, Y: distance})
 	}
 
 	if newRect.C.X > rightBound {
 		distance := newRect.C.X - rightBound
-		newRect.Subtract(Rect{
-			A: Vec{X: distance, Y: 0},
-			B: Vec{X: distance, Y: 0},
-			C: Vec{X: distance, Y: 0},
-			D: Vec{X: distance, Y: 0},
-		})
+		newRect.Subtract(Vec{X: distance, Y: 0})
 	}
 
 	o.Rect = newRect
 	o.Position = newRect.Center()
+
+	o.world.insertToCells(o)
 }
 
 func (o *Object) SetVelocity(v float32) {
