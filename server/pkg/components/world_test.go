@@ -1,30 +1,41 @@
 package components
 
 import (
-	"fmt"
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
-func TestObjectCreate(t *testing.T) {
-	world := NewWorld(0, 500, 0, 100)
-	object := world.CreateObject(Vec{X: 50, Y: 50}, 100, 50)
-	assert.Equal(t, world.cells[0][0], object)
-}
-
 func TestObjectRemove(t *testing.T) {
-	world := NewWorld(0, 500, 0, 100)
-	object := world.CreateObject(Vec{X: 50, Y: 50}, 100, 50)
-	world.removeFromCells(object)
-	assert.Equal(t, len(world.cells[0]), 0)
-	assert.Equal(t, len(world.cells[1]), 0)
+	width := 50000
+	height := 50000
+	world := NewWorld(0, float32(width), 0, float32(height))
+	objects := []*Object{}
+	for i := 150; i < width-150; i++ {
+		obj := world.CreateObject(Vec{X: float32(i), Y: float32(i)}, 150, 150)
+		objects = append(objects, obj)
+	}
+
+	for _, obj := range objects {
+		obj.world.remove(obj)
+	}
+
+	var objectCount int
+	for _, cell := range world.cells {
+		objectCount += cell.Length
+	}
+
+	assert.Equal(t, 0, objectCount)
 }
 
 func BenchmarkInsert(b *testing.B) {
-	world := NewWorld(0, 5000, 0, 5000)
-	for i := 0; i < 50000; i++ {
-		obj := world.CreateObject(Vec{X: 70, Y: 70}, 50, 50)
-		world.removeFromCells(obj)
+	for i := 0; i < b.N; i++ {
+		width := 50000
+		height := 50000
+		world := NewWorld(0, float32(width), 0, float32(height))
+		for i := 150; i < width-150; i++ {
+			obj := world.CreateObject(Vec{X: float32(i), Y: float32(i)}, 150, 150)
+			world.remove(obj)
+		}
 	}
-	fmt.Println(world.cells)
 }

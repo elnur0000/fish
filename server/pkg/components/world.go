@@ -2,6 +2,8 @@ package components
 
 import (
 	"math"
+
+	datastruct "github.com/elnur0000/fish-backend/pkg/data-structures"
 )
 
 const DefaultVelocity float32 = 0.5 // per milliseconds
@@ -11,7 +13,7 @@ type World struct {
 	Bounds   Rect
 	Width    uint32
 	Height   uint32
-	cells    [][]*Object
+	cells    []datastruct.LinkedList
 	cellSize uint16
 }
 
@@ -73,6 +75,7 @@ type Object struct {
 	Height   uint32
 	Velocity float32
 	Rotation float32
+	nodes    []*datastruct.Node
 }
 
 func NewWorld(x, x1, y, y1 float32) World {
@@ -106,7 +109,7 @@ func NewWorld(x, x1, y, y1 float32) World {
 }
 
 func (w *World) buildCells() {
-	w.cells = make([][]*Object, w.Width/uint32(w.cellSize)*w.Height/uint32(w.cellSize))
+	w.cells = make([]datastruct.LinkedList, w.Width/uint32(w.cellSize)*w.Height/uint32(w.cellSize))
 }
 
 func (w *World) CreateObject(pos Vec, width, height uint32) *Object {
@@ -136,41 +139,38 @@ func (w *World) CreateObject(pos Vec, width, height uint32) *Object {
 		Velocity: DefaultVelocity,
 	}
 
-	w.insertToCells(&object)
+	w.insert(&object)
 
 	return &object
 }
 
-func (w *World) insertToCells(object *Object) {
+func (w *World) insert(object *Object) {
+	columnSize := (int(object.Rect.C.Y) - int(object.Rect.A.Y)) / int(w.cellSize)
+	rowSize := (int(object.Rect.C.X) - int(object.Rect.A.X)) / int(w.cellSize)
+	// initialize fixed sized slice for performance
+	object.nodes = make([]*datastruct.Node, columnSize*rowSize)
+	insertIdx := 0
+
 	for yi := int(object.Rect.A.Y); yi < int(object.Rect.C.Y); yi += int(w.cellSize) {
 		for xi := int(object.Rect.A.X); xi < int(object.Rect.C.X); xi += int(w.cellSize) {
 			cellIndex := w.cellIndex(Vec{X: float32(xi), Y: float32(yi)})
-			w.cells[cellIndex] = append(w.cells[cellIndex], object)
+
+			node := datastruct.Node{
+				Val:    object,
+				Parent: &w.cells[cellIndex],
+			}
+			w.cells[cellIndex].Insert(&node)
+
+			object.nodes[insertIdx] = &node
+			insertIdx++
 		}
 	}
 }
 
-func (w *World) removeFromCells(object *Object) {
-	for yi := int(object.Rect.A.Y); yi < int(object.Rect.C.Y); yi += int(w.cellSize) {
-		for xi := int(object.Rect.A.X); xi < int(object.Rect.C.X); xi += int(w.cellSize) {
-			cellIndex := w.cellIndex(Vec{X: float32(xi), Y: float32(yi)})
-			cell := w.cells[cellIndex]
-			for i, obj := range cell {
-				if obj == object {
-					if len(w.cells) < 2 {
-						cell = []*Object{}
-						continue
-					}
-					// swap current object with the last one and then remove it, for efficiency
-					lastObj := cell[len(cell)-1]
-					cell[i] = lastObj
-					cell = cell[:len(cell)-1]
-				}
-			}
-			w.cells[cellIndex] = cell
-		}
+func (w *World) remove(object *Object) {
+	for _, node := range object.nodes {
+		node.Parent.Remove(node)
 	}
-
 }
 
 func (w *World) cellIndex(pos Vec) int {
@@ -178,7 +178,7 @@ func (w *World) cellIndex(pos Vec) int {
 }
 
 func (o *Object) Move(duration float32) {
-	o.world.removeFromCells(o)
+	o.world.remove(o)
 	dx := math.Cos(float64(o.Rotation)) * float64(o.Velocity*duration)
 	dy := math.Sin(float64(o.Rotation)) * float64(o.Velocity*duration)
 	dVec := Vec{
@@ -221,7 +221,7 @@ func (o *Object) Move(duration float32) {
 	o.Rect = newRect
 	o.Position = newRect.Center()
 
-	o.world.insertToCells(o)
+	o.world.insert(o)
 }
 
 func (o *Object) SetVelocity(v float32) {

@@ -1,9 +1,9 @@
 {
-    "go.toolsEnvVars": {
-        "GOOS": "js",
-        "GOARCH": "wasm",
-        "GOROOT": "/home/elnur/.cache/tinygo/goroot-f1dde72fb6f956ea79a4ce1c20aee269b2285dadec253ba13b32d0b07bd36931",
-        "GOFLAGS": "-tags=tinygo.wasm,tinygo,math_big_pure_go,gc.conservative,scheduler.asyncify,serial.none"
-    },
+    // "go.toolsEnvVars": {
+    //     "GOOS": "js",
+    //     "GOARCH": "wasm",
+    //     "GOROOT": "/home/elnur/.cache/tinygo/goroot-f1dde72fb6f956ea79a4ce1c20aee269b2285dadec253ba13b32d0b07bd36931",
+    //     "GOFLAGS": "-tags=tinygo.wasm,tinygo,math_big_pure_go,gc.conservative,scheduler.asyncify,serial.none"
+    // },
     
 }

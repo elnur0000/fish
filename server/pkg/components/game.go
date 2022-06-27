@@ -41,16 +41,14 @@ func (g *Game) SpawnNewPlayer(conn Client) (*Player, error) {
 }
 
 func (g *Game) RemovePlayer(ID uint8) {
-	log.Printf("Removing a player with id %d", ID)
-	g.Players[ID-1].Object.world.removeFromCells(g.Players[ID-1].Object)
+	player := g.Players[ID-1]
+	player.Object.world.remove(player.Object)
 	g.Players[ID-1] = nil
-
 }
 
 func (g *Game) UpdatePlayer(p Player) {
 	g.m.Lock()
 	defer g.m.Unlock()
-	println("updating player")
 	if g.Players[p.ID-1] != nil {
 		g.RemovePlayer(p.ID)
 	}

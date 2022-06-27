@@ -2,5 +2,6 @@ bin
 vendor
 !.vscode/launch.json
 !.vscode/settings.json
-.vscode
+.history
 .idea
+.vscode
