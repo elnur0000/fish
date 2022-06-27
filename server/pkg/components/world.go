@@ -145,12 +145,11 @@ func (w *World) CreateObject(pos Vec, width, height uint32) *Object {
 }
 
 func (w *World) insert(object *Object) {
-	columnSize := (int(object.Rect.C.Y) - int(object.Rect.A.Y)) / int(w.cellSize)
-	rowSize := (int(object.Rect.C.X) - int(object.Rect.A.X)) / int(w.cellSize)
+	columnSize := math.Ceil(float64((object.Rect.C.Y - object.Rect.A.Y) / float32(w.cellSize)))
+	rowSize := math.Ceil(float64((object.Rect.C.X - object.Rect.A.X) / float32(w.cellSize)))
 	// initialize fixed sized slice for performance
-	object.nodes = make([]*datastruct.Node, columnSize*rowSize)
+	object.nodes = make([]*datastruct.Node, int(columnSize*rowSize))
 	insertIdx := 0
-
 	for yi := int(object.Rect.A.Y); yi < int(object.Rect.C.Y); yi += int(w.cellSize) {
 		for xi := int(object.Rect.A.X); xi < int(object.Rect.C.X); xi += int(w.cellSize) {
 			cellIndex := w.cellIndex(Vec{X: float32(xi), Y: float32(yi)})
