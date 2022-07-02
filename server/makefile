@@ -7,6 +7,6 @@ dev:
 	go build -gcflags="all=-N -l"  -o ./bin/server ./cmd/server/main.go 
 	./bin/server
 dev-watch:
-	nodemon --watch './**/*.go' --signal SIGTERM --exec 'make dev'
+	nodemon --watch '**/*.go' --signal SIGTERM --exec go run ./cmd/server/main.go 
 build-server:
 	go build -race -o ./bin/server ./cmd/server/main.go
