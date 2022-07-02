@@ -70,17 +70,22 @@ export default class Demo extends Phaser.Scene {
   
     const playerStates = window.getPlayerStates()
 
+    const playerChangeTrack: {
+      [id: string]: boolean
+    } = {}
+
     for(const state of playerStates) {
       let player = this.players[state.ID]
 
       const isLocalPlayer = state.ID === localPlayerId
-      
+
+      playerChangeTrack[String(state.ID)] = true
+
       if (!player) {
         player = new Piranha(this, state.x, state.y, state.width, state.height)
         isLocalPlayer && this.cameras.main.startFollow(player, true)
         this.players[state.ID] = player
       }
-      
       player.setPosition(state.x, state.y)
       player.setRotation(state.rotation)
       player.setSize(state.width, state.height)
@@ -92,5 +97,13 @@ export default class Demo extends Phaser.Scene {
         window.processLocalPlayerInput(newAngle, delta, (msg) => this.webRTCConnection.sendMessage(msg))
       }
     }
+
+    for(let key in this.players) {
+      if(!(key in playerChangeTrack)){
+        this.players[key].destroy()
+        delete(this.players[key])
+      }
+    }
+
   }
 }

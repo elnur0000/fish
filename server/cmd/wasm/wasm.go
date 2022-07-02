@@ -7,7 +7,7 @@ import (
 	"github.com/elnur0000/fish-backend/pkg/protocol"
 )
 
-var game = components.NewGame()
+var game = components.NewGame(64)
 var localPlayerId uint8
 
 func processServerMessage(this js.Value, args []js.Value) interface{} {
@@ -38,7 +38,6 @@ func processServerMessage(this js.Value, args []js.Value) interface{} {
 
 		game.UpdatePlayer(p)
 	case protocol.REGISTERED:
-		println("Registered")
 		var registeredMessage protocol.RegisteredMessage
 		err := protocol.Deserialize(msg, &registeredMessage)
 
@@ -47,6 +46,15 @@ func processServerMessage(this js.Value, args []js.Value) interface{} {
 			return nil
 		}
 		localPlayerId = registeredMessage.ID
+	case protocol.PLAYER_DISCONNECTED:
+		var disconnectedMsg protocol.PlayerDisconnectedMessage
+		err := protocol.Deserialize(msg, &disconnectedMsg)
+
+		if err != nil {
+			println(err.Error())
+			return nil
+		}
+		game.RemovePlayer(disconnectedMsg.ID)
 	}
 
 	return nil

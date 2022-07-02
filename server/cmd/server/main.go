@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/elnur0000/fish-backend/pkg/controllers"
+	controller "github.com/elnur0000/fish-backend/pkg/controller"
 	"github.com/elnur0000/fish-backend/pkg/transports"
 )
 
@@ -14,11 +14,11 @@ func main() {
 		http.ServeFile(w, r, "bin/main.wasm")
 	}))
 
-	g := controllers.NewGameController(controllers.GameOptions{
+	gamePool := controller.NewGamePool(controller.GamePoolOptions{
 		Transport: &transports.WebRTCTransport,
 	})
 
-	go g.StartGameLoop()
+	go gamePool.Start()
 
 	log.Println("Server started on port 5000")
 	log.Fatal(http.ListenAndServe(":5000", nil))

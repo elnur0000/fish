@@ -8,9 +8,10 @@ import (
 type MessageType uint8
 
 const (
-	CONTROL      MessageType = iota // player input
-	REGISTERED                      // when player is registered
-	PLAYER_STATE                    // player state
+	CONTROL             MessageType = iota // player input
+	REGISTERED                             // when player is registered
+	PLAYER_STATE                           // player state
+	PLAYER_DISCONNECTED                    // player disconnected
 )
 
 type ControlMessage struct {
@@ -24,6 +25,18 @@ func NewControlMessage(rotation float32, duration float32) ControlMessage {
 		Type:     CONTROL,
 		Rotation: rotation,
 		Duration: duration,
+	}
+}
+
+type PlayerDisconnectedMessage struct {
+	Type MessageType
+	ID   uint8
+}
+
+func NewPlayerDisconnectedMessage(id uint8) PlayerDisconnectedMessage {
+	return PlayerDisconnectedMessage{
+		Type: PLAYER_DISCONNECTED,
+		ID:   id,
 	}
 }
 

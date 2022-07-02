@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/pion/webrtc/v3"
 )
@@ -19,15 +20,18 @@ var WebRTCTransport webRTCTransport = webRTCTransport{}
 type webRTCConn struct {
 	peerConnection *webrtc.PeerConnection
 	dataChannel    *webrtc.DataChannel
-	recvBuffer     chan []byte
+	recvBuffer     chan Message
 }
 
 func NewWebRTCConn(dataChannel *webrtc.DataChannel, peerConn *webrtc.PeerConnection) webRTCConn {
-	recvBuffer := make(chan []byte, 100)
+	recvBuffer := make(chan Message, 100)
 
 	go func() {
 		dataChannel.OnMessage(func(msg webrtc.DataChannelMessage) {
-			recvBuffer <- msg.Data
+			recvBuffer <- Message{
+				Body:       msg.Data,
+				ReceivedAt: time.Now(),
+			}
 		})
 	}()
 	return webRTCConn{
@@ -41,12 +45,12 @@ func (w webRTCConn) Send(b []byte) {
 	w.dataChannel.Send(b)
 }
 
-func (w webRTCConn) Recv() chan []byte {
-	return w.recvBuffer
+func (w webRTCConn) GetConnId() uint16 {
+	return *w.dataChannel.ID()
 }
 
-func (w webRTCConn) getConnId() *uint16 {
-	return w.dataChannel.ID()
+func (w webRTCConn) Recv() chan Message {
+	return w.recvBuffer
 }
 
 func (w webRTCConn) OnDisconnect(cb func()) {
@@ -131,7 +135,13 @@ func (wt webRTCTransport) SignalHandler(w http.ResponseWriter, r *http.Request) 
 		w.Write(nil)
 	}
 
-	answerBase64 := Encode(*peerConnection.LocalDescription())
+	answerBase64, err := Encode(*peerConnection.LocalDescription())
+
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write(nil)
+	}
+
 	w.Write([]byte(answerBase64))
 }
 
@@ -149,23 +159,24 @@ func (wt webRTCTransport) WaitForConnection() {
 }
 
 // Encode encodes the input in base64
-func Encode(obj interface{}) string {
+func Encode(obj interface{}) (string, error) {
 	b, err := json.Marshal(obj)
 	if err != nil {
-		panic(err)
+		return "", err
 	}
 
-	return base64.StdEncoding.EncodeToString(b)
+	return base64.StdEncoding.EncodeToString(b), nil
 }
 
-func Decode(in string, obj interface{}) {
+func Decode(in string, obj interface{}) error {
 	b, err := base64.StdEncoding.DecodeString(in)
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	err = json.Unmarshal(b, obj)
 	if err != nil {
-		panic(err)
+		return err
 	}
+	return nil
 }

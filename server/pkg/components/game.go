@@ -6,29 +6,28 @@ import (
 	"sync"
 )
 
-const MaxPlayerPerGame = 64
-
 type Game struct {
-	Players [MaxPlayerPerGame]*Player
+	Players []*Player
 	m       *sync.Mutex
 	World   World
 }
 
-func NewGame() Game {
+func NewGame(maxPlayers int) Game {
 	return Game{
-		m:     &sync.Mutex{},
-		World: NewWorld(0, 5000, 0, 5000),
+		m:       &sync.Mutex{},
+		World:   NewWorld(0, 5000, 0, 5000),
+		Players: make([]*Player, maxPlayers),
 	}
 }
 
-func (g *Game) SpawnNewPlayer(conn Client) (*Player, error) {
+func (g *Game) SpawnNewPlayer() (*Player, error) {
 	g.m.Lock()
 	defer g.m.Unlock()
 
 	for i, player := range g.Players {
 		var id uint8 = uint8(i + 1)
 		if player == nil {
-			p := NewPlayer(id, g.World.CreateObject(Vec{X: 50, Y: 50}, 70, 70), conn)
+			p := NewPlayer(id, g.World.CreateObject(Vec{X: 50, Y: 50}, 70, 70))
 			g.Players[i] = &p
 
 			log.Printf("Created a new player with id %d", p.ID)
